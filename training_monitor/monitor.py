@@ -13,7 +13,7 @@ class HealthReport:
     """Training health report"""
     timestamp: datetime
     epoch: int
-    status: str
+    status: str = "healthy"
     issues: List[str] = field(default_factory=list)
     recommendations: List[str] = field(default_factory=list)
     metrics: Dict[str, Any] = field(default_factory=dict)
@@ -71,7 +71,8 @@ class TrainingHealthMonitor:
         
         report = HealthReport(
             timestamp=datetime.now(),
-            epoch=epoch
+            epoch=epoch,
+            status="healthy"
         )
         
         issues = []
@@ -181,11 +182,11 @@ class TrainingHealthMonitor:
         print(f"Epoch {report.epoch} - Status: {report.status.upper()}")
         print(f"{'='*60}")
         if report.issues:
-            print("⚠️  Issues:")
+            print("Issues:")
             for issue in report.issues:
                 print(f"  • {issue}")
         if report.recommendations:
-            print("\n💡 Recommendations:")
+            print("\nRecommendations:")
             for rec in report.recommendations[:5]:
                 print(f"  • {rec}")
         print(f"{'='*60}\n")
